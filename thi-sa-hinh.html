@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Thi Sa Hình - Mô phỏng thi bằng lái xe ô tô">
+    <title>Thi Sa Hình - Thi Bằng Lái Xe Ô Tô</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="thi-sa-hinh.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="road-line"></div>
+        <div class="road-line"></div>
+        <div class="road-line"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="exam-container">
+        <div class="container">
+            <!-- Exam Header -->
+            <div class="exam-header">
+                <a href="index.html" class="back-button" id="backBtn">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span class="back-text">Trang chủ</span>
+                </a>
+                <h1 class="exam-title">THI SA HÌNH</h1>
+                <div class="exam-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">ĐIỂM</span>
+                        <span class="stat-value" id="score">100</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">TỔNG TG</span>
+                        <span class="stat-value" id="totalTime">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">TG TRONG BÀI</span>
+                        <span class="stat-value" id="currentTime">00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Name Section -->
+            <div class="exam-name-section">
+                <div class="exam-name-label">Bài thi:</div>
+                <div class="exam-name-title">XUẤT PHÁT</div>
+            </div>
+
+            <!-- Common Errors Section -->
+            <div class="common-errors-section">
+                <h3 class="common-errors-title">CÁC LỖI CHUNG</h3>
+                <div class="error-buttons">
+                    <button class="error-btn" data-penalty="-5">
+                        <span class="error-name">Chết máy</span>
+                        <span class="error-penalty">(-5đ)</span>
+                    </button>
+                    <button class="error-btn" data-penalty="-1">
+                        <span class="error-name">Xe quá tốc độ</span>
+                        <span class="error-penalty">(-1đ)</span>
+                    </button>
+                    <button class="error-btn" data-penalty="-5">
+                        <span class="error-name">Vòng tua quá 4000</span>
+                        <span class="error-penalty">(-5đ)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Exam Errors Section -->
+            <div class="exam-errors-section">
+                <h3 class="exam-errors-title">LỖI TRONG BÀI THI</h3>
+                <div class="exam-error-buttons">
+                    <button class="exam-error-btn" data-penalty="-5">
+                        <span class="error-name">Không thắt dây an toàn</span>
+                        <span class="error-penalty">(-5đ)</span>
+                    </button>
+                    <button class="exam-error-btn" data-penalty="-5">
+                        <span class="error-name">Không bật xi nhan trái</span>
+                        <span class="error-penalty">(-5đ)</span>
+                    </button>
+                    <button class="exam-error-btn" data-penalty="-5">
+                        <span class="error-name">Không tắt xi nhan trái</span>
+                        <span class="error-penalty">(-5đ)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Audio Section -->
+            <div class="audio-section">
+                <h3 class="audio-title">ÂM THANH TRONG BÀI</h3>
+                <div class="audio-buttons">
+                    <button class="audio-btn" data-audio="AM THANH TING TONG NHAN BAI.mp3">
+                        <span class="audio-name">Ting Ton</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area (To be filled) -->
+            <div class="content-area">
+                <p style="color: var(--text-muted); text-align: center; padding: 4rem 0; font-size: 1.125rem;">
+                    Nội dung sẽ được thêm vào đây...
+                </p>
+            </div>
+
+            <!-- Floating Previous Button (Initially hidden) -->
+            <button class="prev-question-btn" id="prevQuestionBtn" style="display: none;">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M11 17L6 12M6 12L11 7M6 12H18" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <span class="prev-btn-text">Quay lại bài XUẤT PHÁT</span>
+            </button>
+
+            <!-- Floating Next Button -->
+            <button class="next-question-btn" id="nextQuestionBtn">
+                <span class="next-btn-text">Nhường đường cho người đi bộ</span>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 7L18 12M18 12L13 17M18 12H6" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+        </div>
+    </main>
+
+    <script src="thi-sa-hinh.js"></script>
+</body>
+
+</html>

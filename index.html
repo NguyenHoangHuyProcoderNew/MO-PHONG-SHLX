@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Website mô phỏng thi bằng lái xe ô tô - Luyện tập với các câu hỏi hình ảnh có âm thanh">
+    <title>Thi Bằng Lái Xe Ô Tô - Mô Phỏng Sát Hạch</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Background Animation -->
+    <div class="background-animation">
+        <div class="road-line"></div>
+        <div class="road-line"></div>
+        <div class="road-line"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                    </svg>
+                </div>
+                <span class="logo-text">Thi Bằng Lái Xe</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link active">Trang Chủ</a>
+                <a href="#" class="nav-link">Hướng Dẫn</a>
+                <a href="#" class="nav-link">Liên Hệ</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🎯</span>
+                    <span>Mô phỏng sát hạch thực tế</span>
+                </div>
+                <h1 class="hero-title">
+                    Luyện Thi Bằng Lái Xe<br>
+                    <span class="gradient-text">Chuẩn Bộ Giao Thông</span>
+                </h1>
+                <p class="hero-description">
+                    Hệ thống mô phỏng thi bằng lái xe ô tô với âm thanh và hình ảnh chân thực.
+                    Luyện tập kỹ năng quan sát và xử lý tình huống giao thông một cách hiệu quả nhất.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" id="startSaHinhBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 19V6L21 12L9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span>Thi Sa Hình</span>
+                    </button>
+                    <button class="btn btn-primary btn-alt" id="startDuongTruongBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span>Thi Đường Trường</span>
+                    </button>
+                    <button class="btn btn-secondary" id="learnMoreBtn">
+                        <span>Tìm Hiểu Thêm</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Tính Năng Nổi Bật</h2>
+                <p class="section-description">
+                    Trải nghiệm học tập hiện đại với công nghệ tiên tiến
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Hình Ảnh Thực Tế</h3>
+                    <p class="feature-description">
+                        Câu hỏi tình huống với hình ảnh giao thông chân thực, giúp bạn làm quen với môi trường thi thật.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M15.536 11.293L9.879 8.464C9.487 8.268 9 8.547 9 8.964V14.622C9 15.039 9.487 15.318 9.879 15.122L15.536 12.293C15.9279 12.097 15.9279 11.489 15.536 11.293Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Âm Thanh Hỗ Trợ</h3>
+                    <p class="feature-description">
+                        Mỗi câu hỏi đều có âm thanh đọc đề bài, giúp bạn tập trung và hiểu rõ yêu cầu.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Chấm Điểm Tự Động</h3>
+                    <p class="feature-description">
+                        Hệ thống tự động chấm điểm và thông báo kết quả ngay lập tức sau khi hoàn thành bài thi.
+                    </p>
+                </div>
+
+                <div class="feature-card coming-soon">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Thi Sa Hình (Sắp Ra Mắt)</h3>
+                    <p class="feature-description">
+                        Phần thi sa hình đang được phát triển, sẽ sớm có mặt để phục vụ bạn.
+                    </p>
+                    <span class="coming-soon-badge">Sắp ra mắt</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Sẵn Sàng Chinh Phục Bằng Lái?</h2>
+                <p class="cta-description">
+                    Bắt đầu luyện tập ngay hôm nay để tự tin bước vào kỳ thi thực tế!
+                </p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary btn-large" id="ctaStartSaHinhBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 19V6L21 12L9 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <span>Thi Sa Hình</span>
+                    </button>
+                    <button class="btn btn-primary btn-large btn-alt" id="ctaStartDuongTruongBtn">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M19 11H5M19 11C20.1046 11 21 11.8954 21 13V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V13C3 11.8954 3.89543 11 5 11M19 11V9C19 7.89543 18.1046 7 17 7M5 11V9C5 7.89543 5.89543 7 7 7M7 7V5C7 3.89543 7.89543 3 9 3H15C16.1046 3 17 3.89543 17 5V7M7 7H17"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <span>Thi Đường Trường</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <div class="logo-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5 13L9 17L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                        </div>
+                        <span class="logo-text">Thi Bằng Lái Xe</span>
+                    </div>
+                    <p class="footer-description">
+                        Nền tảng luyện thi bằng lái xe ô tô trực tuyến hiện đại và hiệu quả nhất.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Liên Kết</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Trang Chủ</a></li>
+                        <li><a href="#">Thi Trong Hình</a></li>
+                        <li><a href="#">Thi Sa Hình</a></li>
+                        <li><a href="#">Hướng Dẫn</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4 class="footer-title">Hỗ Trợ</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Câu Hỏi Thường Gặp</a></li>
+                        <li><a href="#">Liên Hệ</a></li>
+                        <li><a href="#">Điều Khoản Sử Dụng</a></li>
+                        <li><a href="#">Chính Sách Bảo Mật</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Thi Bằng Lái Xe. Được phát triển với ❤️ tại Việt Nam.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
