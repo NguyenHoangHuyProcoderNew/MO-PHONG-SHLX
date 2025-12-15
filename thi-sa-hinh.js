@@ -9,8 +9,11 @@ let totalSeconds = 0;
 let currentSeconds = 0;
 let totalTimerInterval = null;
 let currentTimerInterval = null;
-let hasTriggeredTimeout = false; // Flag to prevent multiple triggers
+let hasTriggeredTimeout = false; // Flag to prevent multiple triggers for 20s
+let hasTriggered30sTimeout = false; // Flag to prevent multiple triggers for 30s
 let currentAudio = null; // Track currently playing audio
+let currentQuestion = 1; // Track current question: 1=XUẤT PHÁT, 2=NHƯỜNG ĐƯỜNG, 3=DỐC CẦU
+let hasTriggeredCurrentTimeout = false; // Flag for current question timeout (reset per question)
 
 // ===== Check if user came from homepage =====
 // If not (direct access or refresh), redirect to homepage
@@ -43,6 +46,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Setup next question button
     setupNextButton();
+
+    // Setup next question 2 button  
+    setupNextQuestion2Button();
 
     // Setup previous question button
     setupPrevButton();
@@ -189,12 +195,37 @@ function playExamErrorAudio(errorName) {
 
     let audioFile = '';
 
-    if (errorName.includes('Không thắt dây an toàn')) {
-        audioFile = 'KO THAT DAY AN TOAN XUAT PHAT SA HINH.mp3';
-    } else if (errorName.includes('Không bật xi nhan trái')) {
-        audioFile = 'KO BAT SI NHAN TRAI XUAT PHAT SA HINH.mp3';
-    } else if (errorName.includes('Không tắt xi nhan trái')) {
-        audioFile = 'KO TAT SI NHAN TRAI XUAT PHAT SA HINH.mp3';
+    // Bài 1: XUẤT PHÁT
+    if (currentQuestion === 1) {
+        if (errorName.includes('Không thắt dây an toàn')) {
+            audioFile = 'KO THAT DAY AN TOAN XUAT PHAT SA HINH.mp3';
+        } else if (errorName.includes('Không bật xi nhan trái')) {
+            audioFile = 'KO BAT SI NHAN TRAI XUAT PHAT SA HINH.mp3';
+        } else if (errorName.includes('Không tắt xi nhan trái')) {
+            audioFile = 'KO TAT SI NHAN TRAI XUAT PHAT SA HINH.mp3';
+        }
+    }
+    // Bài 2: NHƯỜNG ĐƯỜNG CHO NGƯỜI ĐI BỘ
+    else if (currentQuestion === 2) {
+        if (errorName.includes('Không dừng xe')) {
+            audioFile = 'KO DUNG XE SA HINH NGUOI DI BO.mp3';
+        } else if (errorName.includes('Dừng xe chưa đến vị trí')) {
+            audioFile = 'DUNG XE CHUA DEN VI TRI NGUOI DI BO SA HINH.mp3';
+        } else if (errorName.includes('Dừng xe quá vị trí')) {
+            audioFile = 'DUNG XE QUA VI TRI NGUOI DI BO SA HINH.mp3';
+        }
+    }
+    // Bài 3: DỪNG VÀ KHỞI HÀNH XE NGANG DỐC
+    else if (currentQuestion === 3) {
+        if (errorName.includes('Không dừng xe ở vạch dừng')) {
+            audioFile = 'KO DUNG XE DOC CAU.mp3';
+        } else if (errorName.includes('Dừng xe chưa đến vị trí')) {
+            audioFile = 'DUNG XE CHUA DEN VI TRI DOC CAU.mp3';
+        } else if (errorName.includes('Dừng xe quá vị trí')) {
+            audioFile = 'DUNG XE QUA VI TRI DOC CAU.mp3';
+        } else if (errorName.includes('Xe tụt dốc quá 50')) {
+            audioFile = 'XE TUT DOC QUA 50CM DOC CAU.mp3';
+        }
     }
 
     if (audioFile) {
@@ -236,6 +267,12 @@ function startTotalTimer() {
             handleTimeoutPenalty();
             hasTriggeredTimeout = true;
         }
+
+        // Check if total time exceeds 30 seconds without switching question (only trigger once)
+        if (totalSeconds === 31 && !hasTriggered30sTimeout) {
+            handle30sTimeoutPenalty();
+            hasTriggered30sTimeout = true;
+        }
     }, 1000);
 }
 
@@ -255,6 +292,53 @@ function handleTimeoutPenalty() {
     console.log('💔 Trừ 5 điểm. Điểm hiện tại:', score);
 }
 
+function handle30sTimeoutPenalty() {
+    console.log('⏰ Quá 30 giây chưa chuyển bài!');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play 30s timeout audio
+    currentAudio = new Audio('30 GIAY KHONG XUAT PHAT SA HINH.mp3');
+    currentAudio.play().catch(error => {
+        console.error('Error playing 30s timeout audio:', error);
+    });
+
+    // Deduct 25 points
+    score = Math.max(0, score - 25); // Don't go below 0
+    updateDisplay();
+
+    console.log('💔💔💔 Trừ 25 điểm. Điểm hiện tại:', score);
+}
+
+// Timeout penalty for Question 3 (Doc Cau) - 30 seconds
+function handleDocCauTimeoutPenalty() {
+    console.log('⏰ Quá 30 giây tại dốc cầu!');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Doc Cau 30s timeout audio
+    currentAudio = new Audio('30 GIAY KHONG QUA DOC CAU.mp3');
+    currentAudio.play().catch(error => {
+        console.error('Error playing Doc Cau timeout audio:', error);
+    });
+
+    // Deduct 25 points
+    score = Math.max(0, score - 25); // Don't go below 0
+    updateDisplay();
+
+    console.log('💔💔💔 Trừ 25 điểm (Dốc cầu). Điểm hiện tại:', score);
+}
+
 function startCurrentTimer() {
     // Clear existing timer if any
     if (currentTimerInterval) {
@@ -265,6 +349,12 @@ function startCurrentTimer() {
     currentTimerInterval = setInterval(() => {
         currentSeconds++;
         updateDisplay();
+
+        // Check timeout for question 3 (Doc Cau): 30 seconds
+        if (currentQuestion === 3 && currentSeconds === 31 && !hasTriggeredCurrentTimeout) {
+            handleDocCauTimeoutPenalty();
+            hasTriggeredCurrentTimeout = true;
+        }
     }, 1000);
 }
 
@@ -287,6 +377,7 @@ function updateScore(newScore) {
 
 function resetCurrentTime() {
     currentSeconds = 0;
+    hasTriggeredCurrentTimeout = false; // Reset timeout flag for new question
     updateDisplay();
     // Restart current timer
     startCurrentTimer();
@@ -343,6 +434,11 @@ function handleNextQuestion() {
     // Reset current time for new question
     resetCurrentTime();
 
+    // Disable 20-second timeout penalty permanently after switching question
+    hasTriggeredTimeout = true;
+    // Disable 30-second timeout penalty permanently after switching question
+    hasTriggered30sTimeout = true;
+
     // Update exam name title
     const examNameTitle = document.querySelector('.exam-name-title');
     if (examNameTitle) {
@@ -380,10 +476,21 @@ function handleNextQuestion() {
     if (nextBtn) nextBtn.style.display = 'none';
     if (prevBtn) prevBtn.style.display = 'flex';
 
+
+    // Show Tune button for Nhuong Duong question
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    // Show next2 button for navigating to Doc Cau
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+    if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'flex';
+
     console.log('🔊 Đang phát: NHUONG DUONG CHO NGUOI DI BO SA HINH.mp3');
     console.log('✅ Đã chuyển sang bài: NHƯỜNG ĐƯỜNG CHO NGƯỜI ĐI BỘ');
     console.log('📊 Điểm hiện tại:', score);
     console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+
+    currentQuestion = 2;
 }
 
 // ===== Previous Question Button =====
@@ -396,6 +503,7 @@ function setupPrevButton() {
     }
 }
 
+
 function handlePrevQuestion() {
     console.log('⬅️ Quay lại câu trước...');
 
@@ -406,54 +514,188 @@ function handlePrevQuestion() {
         currentAudio = null;
     }
 
-    // Play first question audio
-    currentAudio = new Audio('XUAT PHAT SA HINH.mp3');
+    // Reset current time for question
+    resetCurrentTime();
+
+    const examNameTitle = document.querySelector('.exam-name-title');
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    const nextBtn = document.getElementById('nextQuestionBtn');
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    const tuneBtn = document.getElementById('tuneBtn');
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+
+    // Handle based on current question
+    if (currentQuestion === 2) {
+        // Go back to Question 1: XUẤT PHÁT
+        currentAudio = new Audio('XUAT PHAT SA HINH.mp3');
+        currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+        if (examNameTitle) examNameTitle.textContent = 'XUẤT PHÁT';
+
+        // Update buttons for Question 1
+        if (examErrorButtons.length >= 3) {
+            const btn1Name = examErrorButtons[0].querySelector('.error-name');
+            const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+            if (btn1Name) btn1Name.textContent = 'Không thắt dây an toàn';
+            if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+            examErrorButtons[0].dataset.penalty = '-5';
+
+            const btn2Name = examErrorButtons[1].querySelector('.error-name');
+            const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+            if (btn2Name) btn2Name.textContent = 'Không bật xi nhan trái';
+            if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+            examErrorButtons[1].dataset.penalty = '-5';
+
+            const btn3Name = examErrorButtons[2].querySelector('.error-name');
+            const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+            if (btn3Name) btn3Name.textContent = 'Không tắt xi nhan trái';
+            if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
+            examErrorButtons[2].dataset.penalty = '-5';
+        }
+
+        if (nextBtn) nextBtn.style.display = 'flex';
+        if (prevBtn) prevBtn.style.display = 'none';
+        if (tuneBtn) tuneBtn.style.display = 'none';
+        if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
+
+        currentQuestion = 1;
+        console.log('✅ Đã quay lại bài: XUẤT PHÁT');
+
+    } else if (currentQuestion === 3) {
+        // Go back to Question 2: NHƯỜNG ĐƯỜNG
+        currentAudio = new Audio('NHUONG DUONG CHO NGUOI DI BO SA HINH.mp3');
+        currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+        if (examNameTitle) examNameTitle.textContent = 'NHƯỜNG ĐƯỜNG CHO NGƯỜI ĐI BỘ';
+
+        // Update buttons for Question 2
+        if (examErrorButtons.length >= 4) {
+            const btn1Name = examErrorButtons[0].querySelector('.error-name');
+            const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+            if (btn1Name) btn1Name.textContent = 'Không dừng xe';
+            if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+            examErrorButtons[0].dataset.penalty = '-5';
+
+            const btn2Name = examErrorButtons[1].querySelector('.error-name');
+            const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+            if (btn2Name) btn2Name.textContent = 'Dừng xe chưa đến vị trí';
+            if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+            examErrorButtons[1].dataset.penalty = '-5';
+
+            const btn3Name = examErrorButtons[2].querySelector('.error-name');
+            const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+            if (btn3Name) btn3Name.textContent = 'Dừng xe quá vị trí';
+            if (btn3Penalty) btn3Penalty.textContent = '(-25đ)';
+            examErrorButtons[2].dataset.penalty = '-25';
+
+            // Hide button 4
+            examErrorButtons[3].style.display = 'none';
+        }
+
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (prevBtn) {
+            prevBtn.style.display = 'flex';
+            const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+            if (prevBtnText) prevBtnText.textContent = 'Quay lại bài XUẤT PHÁT';
+        }
+        if (tuneBtn) tuneBtn.style.display = 'flex';
+        if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'flex';
+
+        currentQuestion = 2;
+        console.log('✅ Đã quay lại bài: NHƯỜNG ĐƯỜNG CHO NGƯỜI ĐI BỘ');
+    }
+
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+// ===== Third Question Button (Doc Cau) =====
+function setupNextQuestion2Button() {
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+    if (nextQuestion2Btn) {
+        nextQuestion2Btn.addEventListener('click', () => {
+            handleThirdQuestion();
+        });
+    }
+}
+
+function handleThirdQuestion() {
+    console.log('➡️ Chuyển sang bài 3: DỪNG VÀ KHỞI HÀNH XE NGANG DỐC');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Doc Cau audio
+    currentAudio = new Audio('DUNG VA KHOI HANH XE NGANG DOC.mp3');
     currentAudio.play().catch(error => {
         console.log('Error playing audio:', error);
     });
 
-    // Reset current time for question
+    // Reset current time for new question
     resetCurrentTime();
 
-    // Update exam name title back to XUẤT PHÁT
+    // Update exam name title
     const examNameTitle = document.querySelector('.exam-name-title');
     if (examNameTitle) {
-        examNameTitle.textContent = 'XUẤT PHÁT';
+        examNameTitle.textContent = 'DỪNG VÀ KHỞI HÀNH XE NGANG DỐC';
     }
 
-    // Update exam-specific error buttons back to original
+    // Update exam-specific error buttons (4 buttons)
     const examErrorButtons = document.querySelectorAll('.exam-error-btn');
-    if (examErrorButtons.length >= 3) {
-        // Button 1: Không thắt dây an toàn
+    if (examErrorButtons.length >= 4) {
+        // Button 1: Không dừng xe ở vạch dừng (-25đ)
         const btn1Name = examErrorButtons[0].querySelector('.error-name');
         const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
-        if (btn1Name) btn1Name.textContent = 'Không thắt dây an toàn';
-        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
-        examErrorButtons[0].dataset.penalty = '-5';
+        if (btn1Name) btn1Name.textContent = 'Không dừng xe ở vạch dừng quy định';
+        if (btn1Penalty) btn1Penalty.textContent = '(-25đ)';
+        examErrorButtons[0].dataset.penalty = '-25';
 
-        // Button 2: Không bật xi nhan trái
+        // Button 2: Dừng xe chưa đến vị trí (-5đ)
         const btn2Name = examErrorButtons[1].querySelector('.error-name');
         const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
-        if (btn2Name) btn2Name.textContent = 'Không bật xi nhan trái';
+        if (btn2Name) btn2Name.textContent = 'Dừng xe chưa đến vị trí';
         if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
         examErrorButtons[1].dataset.penalty = '-5';
 
-        // Button 3: Không tắt xi nhan trái
+        // Button 3: Dừng xe quá vị trí (-25đ)
         const btn3Name = examErrorButtons[2].querySelector('.error-name');
         const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
-        if (btn3Name) btn3Name.textContent = 'Không tắt xi nhan trái';
-        if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
-        examErrorButtons[2].dataset.penalty = '-5';
+        if (btn3Name) btn3Name.textContent = 'Dừng xe quá vị trí';
+        if (btn3Penalty) btn3Penalty.textContent = '(-25đ)';
+        examErrorButtons[2].dataset.penalty = '-25';
+
+        // Button 4: Xe tụt dốc quá 50 cm (-25đ) - Show this button
+        examErrorButtons[3].style.display = 'flex';
+        const btn4Name = examErrorButtons[3].querySelector('.error-name');
+        const btn4Penalty = examErrorButtons[3].querySelector('.error-penalty');
+        if (btn4Name) btn4Name.textContent = 'Xe tụt dốc quá 50 cm';
+        if (btn4Penalty) btn4Penalty.textContent = '(-25đ)';
+        examErrorButtons[3].dataset.penalty = '-25';
     }
 
-    // Show next button and hide previous button
-    const nextBtn = document.getElementById('nextQuestionBtn');
-    const prevBtn = document.getElementById('prevQuestionBtn');
-    if (nextBtn) nextBtn.style.display = 'flex';
-    if (prevBtn) prevBtn.style.display = 'none';
+    // Hide next2 button, keep prev button showing
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+    if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
 
-    console.log('🔊 Đang phát: XUAT PHAT SA HINH.mp3');
-    console.log('✅ Đã quay lại bài: XUẤT PHÁT');
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NHƯỜNG ĐƯỜNG';
+    }
+
+    // Keep Tune button showing
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    currentQuestion = 3;
+
+    console.log('✅ Đã chuyển sang bài 3: DỪNG VÀ KHỞI HÀNH XE NGANG DỐC');
     console.log('📊 Điểm hiện tại:', score);
     console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
 }
