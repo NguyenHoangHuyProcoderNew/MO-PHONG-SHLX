@@ -1,4 +1,4 @@
-// ===== DOM Elements =====
+﻿// ===== DOM Elements =====
 const scoreElement = document.getElementById('score');
 const totalTimeElement = document.getElementById('totalTime');
 const currentTimeElement = document.getElementById('currentTime');
@@ -12,7 +12,7 @@ let currentTimerInterval = null;
 let hasTriggeredTimeout = false; // Flag to prevent multiple triggers for 20s
 let hasTriggered30sTimeout = false; // Flag to prevent multiple triggers for 30s
 let currentAudio = null; // Track currently playing audio
-let currentQuestion = 1; // Track current question: 1=XUẤT PHÁT, 2=NHƯỜNG ĐƯỜNG, 3=DỐC CẦU
+let currentQuestion = 1; // 1=XUẤT PHÁT, 2=NHƯỜNG ĐƯỜNG, 3=DỐC CẦU, 4=VỆT BÁNH XE, 5=NGÃ TƯ 1, 6=ĐƯỜNG VÒNG, 7=NGÃ TƯ 2, 8=GHÉP DỌC, 9=NGÃ TƯ 3, 10=ĐƯỜNG SẮT, 11=THAY ĐỔI SỐ, 12=GHÉP NGANG, 13=NGÃ TƯ 4
 let hasTriggeredCurrentTimeout = false; // Flag for current question timeout (reset per question)
 
 // ===== Check if user came from homepage =====
@@ -37,6 +37,34 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('Error playing audio:', error);
     });
 
+// ===== Helper Function: Hide All Next Buttons =====
+function hideAllNextButtons() {
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+    const nextQuestion3Btn = document.getElementById('nextQuestion3Btn');
+    const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
+    const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
+    const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
+    const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
+    const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
+    const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
+    const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+    const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+    const nextQuestion12Btn = document.getElementById('nextQuestion12Btn');
+    
+    if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
+    if (nextQuestion3Btn) nextQuestion3Btn.style.display = 'none';
+    if (nextQuestion4Btn) nextQuestion4Btn.style.display = 'none';
+    if (nextQuestion5Btn) nextQuestion5Btn.style.display = 'none';
+    if (nextQuestion6Btn) nextQuestion6Btn.style.display = 'none';
+    if (nextQuestion7Btn) nextQuestion7Btn.style.display = 'none';
+    if (nextQuestion8Btn) nextQuestion8Btn.style.display = 'none';
+    if (nextQuestion9Btn) nextQuestion9Btn.style.display = 'none';
+    if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'none';
+    if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
+    if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'none';
+}
+
+
     // Start timers automatically
     startTotalTimer();
     startCurrentTimer();
@@ -49,6 +77,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Setup next question 2 button  
     setupNextQuestion2Button();
+    // Setup next question 3 button
+    setupNextQuestion3Button();
+    // Setup next question 4 button
+    setupNextQuestion4Button();
+    // Setup next question 5 button
+    setupNextQuestion5Button();
+    // Setup next question 6 button
+    setupNextQuestion6Button();
+    // Setup next question 7 button
+    setupNextQuestion7Button();
+    // Setup next question 8 button
+    setupNextQuestion8Button();
+    // Setup next question 9 button
+    setupNextQuestion9Button();
+    // Setup next question 10 button
+    setupNextQuestion10Button();
+    // Setup next question 11 button
+    setupNextQuestion11Button();
 
     // Setup previous question button
     setupPrevButton();
@@ -151,6 +197,80 @@ function handleAudioPlay(audioFile, audioName, button) {
     }
 
     // Play the audio
+    
+    // Bài 4: VẾT BÁNH XE
+    else if (currentQuestion === 4) {
+        if (errorName.includes("Bánh xe đè vạch")) {
+            audioFile = "BANH XE DE VACH VET BANH XE.mp3";
+        } else if (errorName.includes("Đi sai quy trình")) {
+            audioFile = "DI SAI QUY TRINH VET BANH XE.mp3";
+        }
+    }
+    // Bài 5: NGÃ TƯ 1
+    else if (currentQuestion === 5) {
+        if (errorName.includes("Vượt đèn đỏ")) {
+            audioFile = "VUOT DEN DO NGA TU 1.mp3";
+        } else if (errorName.includes("Dừng xe quá vạch dừng")) {
+            audioFile = "DUNG XE QUA VI TRI NGA TU 1.mp3";
+        } else if (errorName.includes("Không tuân thủ tín hiệu khẩn cấp")) {
+            audioFile = "KO TUAN THU TIN HIEU KHAN CAP NGA TU 1.mp3";
+        }
+    }
+    // Bài 6: ĐƯỜNG VÒNG
+    else if (currentQuestion === 6) {
+        if (errorName.includes("Bánh xe đè vạch")) {
+            audioFile = "BANH XE DE VACH DUONG VONG.mp3";
+        }
+    }
+    // Bài 7: NGÃ TƯ 2
+    else if (currentQuestion === 7) {
+        if (errorName.includes("Vượt đèn đỏ")) {
+            audioFile = "VUOT DEN DO NGA TU 2.mp3";
+        } else if (errorName.includes("Dừng xe quá vạch dừng")) {
+            audioFile = "DUNG XE QUA VI TRI NGA TU 2.mp3";
+        }
+    }
+    // Bài 8: GHÉP DỌC
+    else if (currentQuestion === 8) {
+        if (errorName.includes("Bánh xe đè vạch")) {
+            audioFile = "BANH XE DE VACH GHEP DOC.mp3";
+        } else if (errorName.includes("Đi sai quy trình")) {
+            audioFile = "DI SAI QUY TRINH GHEP DOC.mp3";
+        }
+    }
+    // Bài 9: NGÃ TƯ 3
+    else if (currentQuestion === 9) {
+        if (errorName.includes("Vượt đèn đỏ")) {
+            audioFile = "VUOT DEN DO NGA TU 3.mp3";
+        } else if (errorName.includes("Dừng xe quá vạch dừng")) {
+            audioFile = "DUNG XE QUA VI TRI NGA TU 3.mp3";
+        } else if (errorName.includes("Không mở xi nhan rẽ trái")) {
+            audioFile = "KO BAT SI NHAN TRAI NGA TU THU 3.mp3";
+        }
+    }
+    // Bài 10: ĐƯỜNG SẮT
+    else if (currentQuestion === 10) {
+        if (errorName.includes("Không dừng xe ở vạch dừng")) {
+            audioFile = "KO DUNG XE DUONG SAT.mp3";
+        } else if (errorName.includes("Dừng xe chưa đến vị trí")) {
+            audioFile = "DUNG XE CHUA DEN VI TRI DUONG SAT.mp3";
+        } else if (errorName.includes("Dừng xe quá vị trí")) {
+            audioFile = "DUNG XE QUA VI TRI DUONG SAT.mp3";
+        } else if (errorName.includes("Không tuân thủ tín hiệu khẩn cấp")) {
+            audioFile = "KO TUAN THU KHAN CAP DUONG SAT.mp3";
+        }
+    }
+    // Bài 12: GHÉP NGANG
+    else if (currentQuestion === 12) {
+        if (errorName.includes("Bánh xe đè vạch")) {
+            audioFile = "BANH XE DE VACH GHEP NGANG.mp3";
+        } else if (errorName.includes("Ghép xe sai vị trí")) {
+            audioFile = "BO GHEP NGANG.mp3";
+        } else if (errorName.includes("Đi sai quy trình")) {
+            audioFile = "DI SAI QUY TRINH GHEP NGANG.mp3";
+        }
+    }
+
     if (audioFile) {
         currentAudio = new Audio(audioFile);
         currentAudio.play().catch(error => {
@@ -699,3 +819,871 @@ function handleThirdQuestion() {
     console.log('📊 Điểm hiện tại:', score);
     console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
 }
+
+
+// ===== Fourth Question Button (Qua Vet Banh Xe) =====
+function setupNextQuestion3Button() {
+    const nextQuestion3Btn = document.getElementById('nextQuestion3Btn');
+    if (nextQuestion3Btn) {
+        nextQuestion3Btn.addEventListener('click', () => {
+            handleFourthQuestion();
+        });
+    }
+}
+
+function handleFourthQuestion() {
+    console.log('➡️ Chuyển sang bài 4: QUA VỆT BÁNH XE');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Qua Vet Banh Xe audio
+    currentAudio = new Audio('QUA VET BANH XE SA HINH.mp3');
+    currentAudio.play().catch(error => {
+        console.log('Error playing audio:', error);
+    });
+
+    // Reset current time for new question
+    resetCurrentTime();
+
+    // Update exam name title
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) {
+        examNameTitle.textContent = 'QUA VỆT BÁNH XE VÀ ĐƯỜNG VÒNG VUÔNG GÓC';
+    }
+
+    // Update exam-specific error buttons (2 buttons for this exam)
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 2) {
+        // Button 1: Không đi qua vệt bánh xe (-25đ)
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Không đi qua vệt bánh xe';
+        if (btn1Penalty) btn1Penalty.textContent = '(-25đ)';
+        examErrorButtons[0].dataset.penalty = '-25';
+
+        // Button 2: Bánh xe đè vạch (-5đ)
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Bánh xe đè vạch';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+
+        // Hide buttons 3 and 4 for this exam
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    // Hide next3 button, keep prev button showing
+    const nextQuestion3Btn = document.getElementById('nextQuestion3Btn');
+    if (nextQuestion3Btn) nextQuestion3Btn.style.display = 'none';
+
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài DỐC CẦU';
+    }
+
+    // Hide Tune button (only Ting Ton for this exam)
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'none';
+
+    // Show next4 button for navigating to Nga Tu 1
+    const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
+    if (nextQuestion4Btn) nextQuestion4Btn.style.display = 'flex';
+
+    currentQuestion = 4;
+
+    console.log('✅ Đã chuyển sang bài 4: QUA VỆT BÁNH XE');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Fifth Question Button (Nga Tu 1) =====
+function setupNextQuestion4Button() {
+    const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
+    if (nextQuestion4Btn) {
+        nextQuestion4Btn.addEventListener('click', () => {
+            handleFifthQuestion();
+        });
+    }
+}
+
+function handleFifthQuestion() {
+    console.log('➡️ Chuyển sang bài 5: QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Nga Tu 1 audio
+    currentAudio = new Audio('NGA TU 1.mp3');
+    currentAudio.play().catch(error => {
+        console.log('Error playing audio:', error);
+    });
+
+    // Reset current time for new question
+    resetCurrentTime();
+
+    // Update exam name title
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) {
+        examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG';
+    }
+
+    // Update exam-specific error buttons (3 buttons for this exam)
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 3) {
+        // Button 1: Vượt đèn đỏ (-5đ)
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Vượt đèn đỏ';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        // Button 2: Dừng xe quá vạch dừng quy định (-5đ)
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Dừng xe quá vạch dừng quy định';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        // Button 3: Không tuân thủ tín hiệu khẩn cấp (-5đ)
+        const btn3Name = examErrorButtons[2].querySelector('.error-name');
+        const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+        if (btn3Name) btn3Name.textContent = 'Không tuân thủ tín hiệu khẩn cấp';
+        if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
+        examErrorButtons[2].dataset.penalty = '-5';
+        examErrorButtons[2].style.display = 'flex';
+
+        // Hide button 4
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    // Hide next4 button, keep prev button showing
+    const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
+    if (nextQuestion4Btn) nextQuestion4Btn.style.display = 'none';
+
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài VỆT BÁNH XE';
+    }
+
+    // Show Tune button for Nga Tu question
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    // Show Emergency button for Nga Tu question
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'flex';
+
+    // Show next5 button for navigating to Duong Vong Quanh Co
+    const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
+    if (nextQuestion5Btn) nextQuestion5Btn.style.display = 'flex';
+
+    currentQuestion = 5;
+
+    console.log('✅ Đã chuyển sang bài 5: NGÃ TƯ 1');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Sixth Question Button (Duong Vong Quanh Co) =====
+function setupNextQuestion5Button() {
+    const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
+    if (nextQuestion5Btn) {
+        nextQuestion5Btn.addEventListener('click', () => {
+            handleSixthQuestion();
+        });
+    }
+}
+
+function handleSixthQuestion() {
+    console.log('➡️ Chuyển sang bài 6: ĐƯỜNG VÒNG QUANH CO');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Duong Vong Quanh Co audio
+    currentAudio = new Audio('DUONG VONG QUANH CO.mp3');
+    currentAudio.play().catch(error => {
+        console.log('Error playing audio:', error);
+    });
+
+    // Reset current time for new question
+    resetCurrentTime();
+
+    // Update exam name title
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) {
+        examNameTitle.textContent = 'ĐƯỜNG VÒNG QUANH CO';
+    }
+
+    // Update exam-specific error buttons (only 1 button for this exam)
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 1) {
+        // Button 1: Bánh xe đè vạch (-5đ)
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Bánh xe đè vạch';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        // Hide buttons 2, 3, 4 for this exam (only 1 error)
+        if (examErrorButtons.length >= 2) examErrorButtons[1].style.display = 'none';
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    // Hide next5 button, keep prev button showing
+    const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
+    if (nextQuestion5Btn) nextQuestion5Btn.style.display = 'none';
+
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NGÃ TƯ 1';
+    }
+
+    // Hide Tune and Emergency buttons (only Ting Ton for this exam)
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'none';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    // Show next6 button for navigating to Nga Tu 2
+    const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
+    if (nextQuestion6Btn) nextQuestion6Btn.style.display = 'flex';
+
+    currentQuestion = 6;
+
+    console.log('✅ Đã chuyển sang bài 6: ĐƯỜNG VÒNG QUANH CO');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Seventh Question Button (Nga Tu 2) =====
+function setupNextQuestion6Button() {
+    const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
+    if (nextQuestion6Btn) {
+        nextQuestion6Btn.addEventListener('click', () => {
+            handleSeventhQuestion();
+        });
+    }
+}
+
+function handleSeventhQuestion() {
+    console.log('➡️ Chuyển sang bài 7: QUA NGÃ TƯ 2');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Nga Tu 2 audio
+    currentAudio = new Audio('NGA TU THU 2.mp3');
+    currentAudio.play().catch(error => {
+        console.log('Error playing audio:', error);
+    });
+
+    // Reset current time for new question
+    resetCurrentTime();
+
+    // Update exam name title
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) {
+        examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG';
+    }
+
+    // Update exam-specific error buttons (2 buttons for this exam)
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 2) {
+        // Button 1: Vượt đèn đỏ (-5đ)
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Vượt đèn đỏ';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        // Button 2: Dừng xe quá vạch dừng quy định (-5đ)
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Dừng xe quá vạch dừng quy định';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        // Hide buttons 3 and 4
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    // Hide next6 button, keep prev button showing
+    const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
+    if (nextQuestion6Btn) nextQuestion6Btn.style.display = 'none';
+
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài ĐƯỜNG VÒNG';
+    }
+
+    // Hide Tune and Emergency buttons (only Ting Ton for this exam)
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'none';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    // Show next7 button for navigating to Ghep Doc
+    const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
+    if (nextQuestion7Btn) nextQuestion7Btn.style.display = 'flex';
+
+    currentQuestion = 7;
+
+    console.log('✅ Đã chuyển sang bài 7: NGÃ TƯ 2');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Eighth Question Button (Ghep Doc) =====
+function setupNextQuestion7Button() {
+    const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
+    if (nextQuestion7Btn) {
+        nextQuestion7Btn.addEventListener('click', () => {
+            handleEighthQuestion();
+        });
+    }
+}
+
+function handleEighthQuestion() {
+    console.log('➡️ Chuyển sang bài 8: GHÉP XE DỌC VÀO NƠI ĐỖ');
+
+    // Stop and clear previous audio if it's playing
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    // Play Ghep Doc audio
+    currentAudio = new Audio('GHEP DOC.mp3');
+    currentAudio.play().catch(error => {
+        console.log('Error playing audio:', error);
+    });
+
+    // Reset current time for new question
+    resetCurrentTime();
+
+    // Update exam name title
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) {
+        examNameTitle.textContent = 'GHÉP XE DỌC VÀO NƠI ĐỖ';
+    }
+
+    // Update exam-specific error buttons (2 buttons for this exam)
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 2) {
+        // Button 1: Bánh xe đè vạch (-5đ)
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Bánh xe đè vạch';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        // Button 2: Đi sai quy trình (-25đ)
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Đi sai quy trình';
+        if (btn2Penalty) btn2Penalty.textContent = '(-25đ)';
+        examErrorButtons[1].dataset.penalty = '-25';
+        examErrorButtons[1].style.display = 'flex';
+
+        // Hide buttons 3 and 4
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    // Hide next7 button, keep prev button showing
+    const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
+    if (nextQuestion7Btn) nextQuestion7Btn.style.display = 'none';
+
+    // Update prev button text
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NGÃ TƯ 2';
+    }
+
+    // Show Tune button, hide Emergency
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    // Show next8 button for navigating to Nga Tu 3
+    const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
+    if (nextQuestion8Btn) nextQuestion8Btn.style.display = 'flex';
+
+    currentQuestion = 8;
+
+    console.log('✅ Đã chuyển sang bài 8: GHÉP XE DỌC VÀO NƠI ĐỖ');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Ninth Question Button (Nga Tu 3) =====
+function setupNextQuestion8Button() {
+    const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
+    if (nextQuestion8Btn) {
+        nextQuestion8Btn.addEventListener('click', () => {
+            handleNinthQuestion();
+        });
+    }
+}
+
+function handleNinthQuestion() {
+    console.log('➡️ Chuyển sang bài 9: QUA NGÃ TƯ 3');
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    currentAudio = new Audio('NGA TU 3.mp3');
+    currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+    resetCurrentTime();
+
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG';
+
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 3) {
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Vượt đèn đỏ';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Dừng xe quá vạch dừng quy định';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        const btn3Name = examErrorButtons[2].querySelector('.error-name');
+        const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+        if (btn3Name) btn3Name.textContent = 'Không mở xi nhan rẽ trái';
+        if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
+        examErrorButtons[2].dataset.penalty = '-5';
+        examErrorButtons[2].style.display = 'flex';
+
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
+    if (nextQuestion8Btn) nextQuestion8Btn.style.display = 'none';
+
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài GHÉP DỌC';
+    }
+
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'none';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
+    if (nextQuestion9Btn) nextQuestion9Btn.style.display = 'flex';
+
+    currentQuestion = 9;
+
+    console.log('✅ Đã chuyển sang bài 9: NGÃ TƯ 3');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+
+// ===== Tenth Question Button (Duong Sat) =====
+function setupNextQuestion9Button() {
+    const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
+    if (nextQuestion9Btn) {
+        nextQuestion9Btn.addEventListener('click', () => {
+            handleTenthQuestion();
+        });
+    }
+}
+
+function handleTenthQuestion() {
+    console.log('➡️ Chuyển sang bài 10: TẠM DỪNG Ở CHỖ CÓ ĐƯỜNG SẮT CHẠY QUA');
+
+    hideAllNextButtons();
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    currentAudio = new Audio('NHUONG DUONG SAT.mp3');
+    currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+    resetCurrentTime();
+
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) examNameTitle.textContent = 'TẠM DỪNG Ở CHỖ CÓ ĐƯỜNG SẮT CHẠY QUA';
+
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 4) {
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Không dừng xe ở vạch dừng quy định';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Dừng xe chưa đến vị trí';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        const btn3Name = examErrorButtons[2].querySelector('.error-name');
+        const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+        if (btn3Name) btn3Name.textContent = 'Dừng xe quá vị trí';
+        if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
+        examErrorButtons[2].dataset.penalty = '-5';
+        examErrorButtons[2].style.display = 'flex';
+
+        const btn4Name = examErrorButtons[3].querySelector('.error-name');
+        const btn4Penalty = examErrorButtons[3].querySelector('.error-penalty');
+        if (btn4Name) btn4Name.textContent = 'Không tuân thủ tín hiệu khẩn cấp';
+        if (btn4Penalty) btn4Penalty.textContent = '(-10đ)';
+        examErrorButtons[3].dataset.penalty = '-10';
+        examErrorButtons[3].style.display = 'flex';
+    }
+
+    const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
+    if (nextQuestion9Btn) nextQuestion9Btn.style.display = 'none';
+
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NGÃ TƯ 3';
+    }
+
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'flex';
+
+    const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+    if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'flex';
+
+    currentQuestion = 10;
+
+    console.log('✅ Đã chuyển sang bài 10: ĐƯỜNG SẮT');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+
+// Complete code for Question 11
+
+// 1. HTML Button (add to thi-sa-hinh.html before closing div)
+/*
+            <!-- Floating Next Button 11 (to Question 12: Ghep Ngang) - Initially hidden -->
+            <button class="next-question-btn" id="nextQuestion11Btn" style="display: none;">
+                <span class="next-btn-text">Ghép ngang</span>
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 7L18 12M18 12L13 17M18 12H6" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </button>
+*/
+
+// 2. Update hideAllNextButtons to include nextQuestion11Btn
+// Add: const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+// Add: if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
+
+// 3. Update currentQuestion comment
+// let currentQuestion = 1; // ...10=ĐƯỜNG SẮT, 11=THAY ĐỔI SỐ
+
+// 4. Add setup call
+// setupNextQuestion10Button();
+
+// 5. Setup and handle functions
+function setupNextQuestion10Button() {
+    const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+    if (nextQuestion10Btn) {
+        nextQuestion10Btn.addEventListener('click', () => {
+            handleEleventhQuestion();
+        });
+    }
+}
+
+function handleEleventhQuestion() {
+    console.log('➡️ Chuyển sang bài 11: THAY ĐỔI SỐ TRÊN ĐƯỜNG BẰNG');
+
+    hideAllNextButtons();
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    currentAudio = new Audio('BAI THI THAY DOI SO.mp3');
+    currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+    resetCurrentTime();
+
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) examNameTitle.textContent = 'THAY ĐỔI SỐ TRÊN ĐƯỜNG BẰNG';
+
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 2) {
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Không thay đổi số đúng quy định';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Không đạt tốc độ đúng quy định';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+    if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'none';
+
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài ĐƯỜNG SẮT';
+    }
+
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+    if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'flex';
+
+    currentQuestion = 11;
+
+    console.log('✅ Đã chuyển sang bài 11: THAY ĐỔI SỐ');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
+// 6. Audio mapping
+/*
+    // Bài 11: THAY ĐỔI SỐ
+    else if (currentQuestion === 11) {
+        if (errorName.includes("Không thay đổi số")) {
+            audioFile = "KO THAY DOI SO.mp3";
+        } else if (errorName.includes("Không đạt tốc độ")) {
+            audioFile = "KO DAT TOC DO QUY DINH.mp3";
+        }
+    }
+*/
+
+// 7. handlePrevQuestion case 11
+/*
+    else if (currentQuestion === 11) {
+        // Go back to Question 10: ĐƯỜNG SẮT
+        currentAudio = new Audio('NHUONG DUONG SAT.mp3');
+        currentAudio.play().catch(error => console.log('Error playing audio:', error));
+        
+        if (examNameTitle) examNameTitle.textContent = 'TẠM DỪNG Ở CHỖ CÓ ĐƯỜNG SẮT CHẠY QUA';
+        
+        if (examErrorButtons.length >= 4) {
+            const btn1Name = examErrorButtons[0].querySelector('.error-name');
+            const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+            if (btn1Name) btn1Name.textContent = 'Không dừng xe ở vạch dừng quy định';
+            if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+            examErrorButtons[0].dataset.penalty = '-5';
+            examErrorButtons[0].style.display = 'flex';
+            
+            const btn2Name = examErrorButtons[1].querySelector('.error-name');
+            const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+            if (btn2Name) btn2Name.textContent = 'Dừng xe chưa đến vị trí';
+            if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+            examErrorButtons[1].dataset.penalty = '-5';
+            examErrorButtons[1].style.display = 'flex';
+            
+            const btn3Name = examErrorButtons[2].querySelector('.error-name');
+            const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+            if (btn3Name) btn3Name.textContent = 'Dừng xe quá vị trí';
+            if (btn3Penalty) btn3Penalty.textContent = '(-5đ)';
+            examErrorButtons[2].dataset.penalty = '-5';
+            examErrorButtons[2].style.display = 'flex';
+            
+            const btn4Name = examErrorButtons[3].querySelector('.error-name');
+            const btn4Penalty = examErrorButtons[3].querySelector('.error-penalty');
+            if (btn4Name) btn4Name.textContent = 'Không tuân thủ tín hiệu khẩn cấp';
+            if (btn4Penalty) btn4Penalty.textContent = '(-10đ)';
+            examErrorButtons[3].dataset.penalty = '-10';
+            examErrorButtons[3].style.display = 'flex';
+        }
+        
+        if (nextBtn) nextBtn.style.display = 'none';
+        if (prevBtn) {
+            prevBtn.style.display = 'flex';
+            const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+            if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NGÃ TƯ 3';
+        }
+        if (tuneBtn) tuneBtn.style.display = 'flex';
+        if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
+        
+        const emergencyBtn = document.getElementById('emergencyBtn');
+        if (emergencyBtn) emergencyBtn.style.display = 'flex';
+        
+        const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+        if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'flex';
+        
+        const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+        if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
+        
+        currentQuestion = 10;
+        console.log('✅ Đã quay lại bài: ĐƯỜNG SẮT');
+    }
+*/
+
+
+
+// ===== Twelfth Question Button (Ghep Ngang) =====
+function setupNextQuestion11Button() {
+    const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+    if (nextQuestion11Btn) {
+        nextQuestion11Btn.addEventListener('click', () => {
+            handleTwelfthQuestion();
+        });
+    }
+}
+
+function handleTwelfthQuestion() {
+    console.log('➡️ Chuyển sang bài 12: GHÉP XE NGANG VÀO NƠI ĐỖ');
+
+    hideAllNextButtons();
+
+    if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+    }
+
+    currentAudio = new Audio('GHEP NGANG.mp3');
+    currentAudio.play().catch(error => console.log('Error playing audio:', error));
+
+    resetCurrentTime();
+
+    const examNameTitle = document.querySelector('.exam-name-title');
+    if (examNameTitle) examNameTitle.textContent = 'GHÉP XE NGANG VÀO NƠI ĐỖ';
+
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 3) {
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Bánh xe đè vạch';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
+
+        const btn2Name = examErrorButtons[1].querySelector('.error-name');
+        const btn2Penalty = examErrorButtons[1].querySelector('.error-penalty');
+        if (btn2Name) btn2Name.textContent = 'Ghép xe sai vị trí';
+        if (btn2Penalty) btn2Penalty.textContent = '(-5đ)';
+        examErrorButtons[1].dataset.penalty = '-5';
+        examErrorButtons[1].style.display = 'flex';
+
+        const btn3Name = examErrorButtons[2].querySelector('.error-name');
+        const btn3Penalty = examErrorButtons[2].querySelector('.error-penalty');
+        if (btn3Name) btn3Name.textContent = 'Đi sai quy trình';
+        if (btn3Penalty) btn3Penalty.textContent = '(-25đ)';
+        examErrorButtons[2].dataset.penalty = '-25';
+        examErrorButtons[2].style.display = 'flex';
+
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+    }
+
+    const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+    if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
+
+    const prevBtn = document.getElementById('prevQuestionBtn');
+    if (prevBtn) {
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài THAY ĐỔI SỐ';
+    }
+
+    const tuneBtn = document.getElementById('tuneBtn');
+    if (tuneBtn) tuneBtn.style.display = 'flex';
+
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) emergencyBtn.style.display = 'none';
+
+    const nextQuestion12Btn = document.getElementById('nextQuestion12Btn');
+    if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'flex';
+
+    currentQuestion = 12;
+
+    console.log('✅ Đã chuyển sang bài 12: GHÉP NGANG');
+    console.log('📊 Điểm hiện tại:', score);
+    console.log('⏰ Tổng thời gian:', formatTime(totalSeconds));
+}
+
