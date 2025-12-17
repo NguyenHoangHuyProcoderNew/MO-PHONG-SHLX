@@ -15,6 +15,21 @@
 </head>
 
 <body>
+    <!-- Overlay Start Button (Fix Autoplay Mobile) -->
+    <div id="startOverlay"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(17, 24, 39, 0.95); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; backdrop-filter: blur(10px);">
+        <div
+            style="background: rgba(255, 255, 255, 0.1); padding: 2rem; border-radius: 1rem; border: 1px solid rgba(255, 255, 255, 0.2); text-align: center; max-width: 90%;">
+            <h2 style="font-size: 1.5rem; margin-bottom: 2rem; color: #fff; font-weight: 700;">Sẵn sàng làm bài thi?
+            </h2>
+            <button id="startExamBtn"
+                style="padding: 1rem 3rem; font-size: 1.25rem; font-weight: 700; color: white; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border: none; border-radius: 50px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s;">
+                BẮT ĐẦU NGAY
+            </button>
+            <p style="margin-top: 1rem; color: rgba(255, 255, 255, 0.6); font-size: 0.875rem;">Nhấn để bật âm thanh và
+                tính giờ</p>
+        </div>
+    </div>
     <!-- Background Animation -->
     <div class="background-animation">
         <div class="road-line"></div>

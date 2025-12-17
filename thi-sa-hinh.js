@@ -27,49 +27,62 @@ if (!sessionStorage.getItem('examStarted')) {
 }
 
 // ===== Audio on Page Load =====
+// ===== Helper Function: Hide All Next Buttons (Global) =====
+function hideAllNextButtons() {
+    const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
+    const nextQuestion3Btn = document.getElementById('nextQuestion3Btn');
+    const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
+    const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
+    const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
+    const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
+    const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
+    const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
+    const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
+    const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
+    const nextQuestion12Btn = document.getElementById('nextQuestion12Btn');
+    const nextQuestion13Btn = document.getElementById('nextQuestion13Btn');
+
+    if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
+    if (nextQuestion3Btn) nextQuestion3Btn.style.display = 'none';
+    if (nextQuestion4Btn) nextQuestion4Btn.style.display = 'none';
+    if (nextQuestion5Btn) nextQuestion5Btn.style.display = 'none';
+    if (nextQuestion6Btn) nextQuestion6Btn.style.display = 'none';
+    if (nextQuestion7Btn) nextQuestion7Btn.style.display = 'none';
+    if (nextQuestion8Btn) nextQuestion8Btn.style.display = 'none';
+    if (nextQuestion9Btn) nextQuestion9Btn.style.display = 'none';
+    if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'none';
+    if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
+    if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'none';
+    if (nextQuestion13Btn) nextQuestion13Btn.style.display = 'none';
+}
+
+// ===== Audio on Page Load =====
 window.addEventListener('DOMContentLoaded', () => {
     // Initialize display
     updateDisplay();
 
-    // Play welcome audio when page loads and track it
-    currentAudio = new Audio('XUAT PHAT SA HINH.mp3');
-    currentAudio.play().catch(error => {
-        console.log('Error playing audio:', error);
-    });
+    // Setup Start Overlay Button
+    const startOverlay = document.getElementById('startOverlay');
+    const startExamBtn = document.getElementById('startExamBtn');
 
-    // ===== Helper Function: Hide All Next Buttons =====
-    function hideAllNextButtons() {
-        const nextQuestion2Btn = document.getElementById('nextQuestion2Btn');
-        const nextQuestion3Btn = document.getElementById('nextQuestion3Btn');
-        const nextQuestion4Btn = document.getElementById('nextQuestion4Btn');
-        const nextQuestion5Btn = document.getElementById('nextQuestion5Btn');
-        const nextQuestion6Btn = document.getElementById('nextQuestion6Btn');
-        const nextQuestion7Btn = document.getElementById('nextQuestion7Btn');
-        const nextQuestion8Btn = document.getElementById('nextQuestion8Btn');
-        const nextQuestion9Btn = document.getElementById('nextQuestion9Btn');
-        const nextQuestion10Btn = document.getElementById('nextQuestion10Btn');
-        const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
-        const nextQuestion12Btn = document.getElementById('nextQuestion12Btn');
+    if (startExamBtn) {
+        startExamBtn.addEventListener('click', () => {
+            // Hide overlay
+            if (startOverlay) startOverlay.style.display = 'none';
 
-        if (nextQuestion2Btn) nextQuestion2Btn.style.display = 'none';
-        if (nextQuestion3Btn) nextQuestion3Btn.style.display = 'none';
-        if (nextQuestion4Btn) nextQuestion4Btn.style.display = 'none';
-        if (nextQuestion5Btn) nextQuestion5Btn.style.display = 'none';
-        if (nextQuestion6Btn) nextQuestion6Btn.style.display = 'none';
-        if (nextQuestion7Btn) nextQuestion7Btn.style.display = 'none';
-        if (nextQuestion8Btn) nextQuestion8Btn.style.display = 'none';
-        if (nextQuestion9Btn) nextQuestion9Btn.style.display = 'none';
-        if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'none';
-        if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
-        if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'none';
-        const nextQuestion13Btn = document.getElementById('nextQuestion13Btn');
-        if (nextQuestion13Btn) nextQuestion13Btn.style.display = 'none';
+            // Play welcome audio
+            currentAudio = new Audio('XUAT PHAT SA HINH.mp3');
+            currentAudio.play().catch(error => {
+                console.log('Error playing audio:', error);
+            });
+
+            // Start timers
+            startTotalTimer();
+            startCurrentTimer();
+
+            console.log('🎵 Bắt đầu bài thi (User Click)');
+        });
     }
-
-
-    // Start timers automatically
-    startTotalTimer();
-    startCurrentTimer();
 
     // Setup error button listeners
     setupErrorButtons();
@@ -77,36 +90,24 @@ window.addEventListener('DOMContentLoaded', () => {
     // Setup next question button
     setupNextButton();
 
-    // Setup next question 2 button  
+    // Setup next question buttons
     setupNextQuestion2Button();
-    // Setup next question 3 button
     setupNextQuestion3Button();
-    // Setup next question 4 button
     setupNextQuestion4Button();
-    // Setup next question 5 button
     setupNextQuestion5Button();
-    // Setup next question 6 button
     setupNextQuestion6Button();
-    // Setup next question 7 button
     setupNextQuestion7Button();
-    // Setup next question 8 button
     setupNextQuestion8Button();
-    // Setup next question 9 button
     setupNextQuestion9Button();
-    // Setup next question 10 button
     setupNextQuestion10Button();
-    // Setup next question 11 button
     setupNextQuestion11Button();
-    // Setup next question 12 button
     setupNextQuestion12Button();
-    // Setup next question 13 button
     setupNextQuestion13Button();
 
     // Setup previous question button
     setupPrevButton();
 
-    console.log('🎵 Trang Thi Sa Hình đã được tải');
-    console.log('⏱️ Đã bắt đầu đếm thời gian...');
+    console.log('🎵 Trang Thi Sa Hình đã được tải. Chờ user nhấn Bắt đầu...');
     console.log('⚠️ Lưu ý: Sau 20 giây sẽ bị trừ 5 điểm!');
 });
 
