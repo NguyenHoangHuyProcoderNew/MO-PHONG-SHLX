@@ -425,6 +425,8 @@ function playExamErrorAudio(errorName) {
             audioFile = 'BO GHEP NGANG.mp3';
         } else if (errorName.includes('Đi sai quy trình')) {
             audioFile = 'DI SAI QUY TRINH GHEP NGANG.mp3';
+        } else if (errorName.includes('Không tuân thủ tín hiệu khẩn cấp')) {
+            audioFile = 'KO TUAN THU KHAN CAP GHEP NGANG.mp3';
         }
     }
     // Bài 13: NGÃ TƯ 4
@@ -920,10 +922,16 @@ function handlePrevQuestion() {
         updateBtn(0, 'Bánh xe đè vạch', '-5');
         updateBtn(1, 'Ghép xe sai vị trí', '-5');
         updateBtn(2, 'Đi sai quy trình', '-25');
-        updateBtn(3, '', '', true);
+        updateBtn(3, 'Không tuân thủ tín hiệu khẩn cấp', '-10');
+
         if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'flex';
         if (prevBtnText) prevBtnText.textContent = 'Quay lại bài THAY ĐỔI SỐ';
         if (tuneBtn) tuneBtn.style.display = 'flex';
+
+        if (emergencyBtn) {
+            emergencyBtn.dataset.audio = 'KHAN CAP GHEP NGANG.mp3';
+            emergencyBtn.style.display = 'flex';
+        }
         currentQuestion = 12;
     } else if (currentQuestion > 13) { // 14 or finish state
         currentAudio = new Audio('NGA TU 4.mp3');
@@ -1964,7 +1972,14 @@ function handleTwelfthQuestion() {
         examErrorButtons[2].dataset.penalty = '-25';
         examErrorButtons[2].style.display = 'flex';
 
-        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
+        if (examErrorButtons.length >= 4) {
+            const btn4Name = examErrorButtons[3].querySelector('.error-name');
+            const btn4Penalty = examErrorButtons[3].querySelector('.error-penalty');
+            if (btn4Name) btn4Name.textContent = 'Không tuân thủ tín hiệu khẩn cấp';
+            if (btn4Penalty) btn4Penalty.textContent = '(-10đ)';
+            examErrorButtons[3].dataset.penalty = '-10';
+            examErrorButtons[3].style.display = 'flex';
+        }
     }
 
     const nextQuestion11Btn = document.getElementById('nextQuestion11Btn');
@@ -1980,7 +1995,10 @@ function handleTwelfthQuestion() {
     if (tuneBtn) tuneBtn.style.display = 'flex';
 
     const emergencyBtn = document.getElementById('emergencyBtn');
-    if (emergencyBtn) emergencyBtn.style.display = 'none';
+    if (emergencyBtn) {
+        emergencyBtn.dataset.audio = 'KHAN CAP GHEP NGANG.mp3';
+        emergencyBtn.style.display = 'flex';
+    }
 
     const nextQuestion12Btn = document.getElementById('nextQuestion12Btn');
     if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'flex';
