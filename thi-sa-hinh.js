@@ -62,6 +62,8 @@ window.addEventListener('DOMContentLoaded', () => {
         if (nextQuestion10Btn) nextQuestion10Btn.style.display = 'none';
         if (nextQuestion11Btn) nextQuestion11Btn.style.display = 'none';
         if (nextQuestion12Btn) nextQuestion12Btn.style.display = 'none';
+        const nextQuestion13Btn = document.getElementById('nextQuestion13Btn');
+        if (nextQuestion13Btn) nextQuestion13Btn.style.display = 'none';
     }
 
 
@@ -95,6 +97,10 @@ window.addEventListener('DOMContentLoaded', () => {
     setupNextQuestion10Button();
     // Setup next question 11 button
     setupNextQuestion11Button();
+    // Setup next question 12 button
+    setupNextQuestion12Button();
+    // Setup next question 13 button
+    setupNextQuestion13Button();
 
     // Setup previous question button
     setupPrevButton();
@@ -427,6 +433,12 @@ function playExamErrorAudio(errorName) {
             audioFile = 'DI SAI QUY TRINH GHEP NGANG.mp3';
         } else if (errorName.includes('Không tuân thủ tín hiệu khẩn cấp')) {
             audioFile = 'KO TUAN THU KHAN CAP GHEP NGANG.mp3';
+        }
+    }
+    // Bài 14: KẾT THÚC
+    else if (currentQuestion === 14) {
+        if (errorName.includes('Không bật xi nhan phải')) {
+            audioFile = 'KO BAT SI NHAN PHAI KET THUC.mp3';
         }
     }
     // Bài 13: NGÃ TƯ 4
@@ -933,23 +945,23 @@ function handlePrevQuestion() {
             emergencyBtn.style.display = 'flex';
         }
         currentQuestion = 12;
-    } else if (currentQuestion > 13) { // 14 or finish state
+    } else if (currentQuestion === 14) {
         currentAudio = new Audio('NGA TU 4.mp3');
-        if (examNameTitle) examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG (KẾT THÚC)';
+        if (examNameTitle) examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG';
         updateBtn(0, 'Vượt đèn đỏ', '-5');
         updateBtn(1, 'Dừng xe quá vạch dừng quy định', '-5');
         updateBtn(2, 'Không bật xi nhan phải', '-5');
         updateBtn(3, '', '', true);
+
         if (nextQuestion13Btn) nextQuestion13Btn.style.display = 'flex';
         if (prevBtnText) prevBtnText.textContent = 'Quay lại bài GHÉP NGANG';
         if (tuneBtn) tuneBtn.style.display = 'none';
+        if (emergencyBtn) emergencyBtn.style.display = 'none';
 
         const commonErrors = document.querySelector('.common-errors-section');
         if (commonErrors) commonErrors.style.display = 'block';
         const examErrors = document.querySelector('.exam-errors-section');
         if (examErrors) examErrors.style.display = 'block';
-        const contentArea = document.querySelector('.content-area');
-        if (contentArea) contentArea.innerHTML = `<p style="color: var(--text-muted); text-align: center; padding: 4rem 0; font-size: 1.125rem;">Nội dung sẽ được thêm vào đây...</p>`;
 
         currentQuestion = 13;
     }
@@ -2038,7 +2050,7 @@ function handleThirteenthQuestion() {
     resetCurrentTime();
 
     const examNameTitle = document.querySelector('.exam-name-title');
-    if (examNameTitle) examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG (KẾT THÚC)';
+    if (examNameTitle) examNameTitle.textContent = 'QUA NGÃ TƯ CÓ TÍN HIỆU ĐIỀU KHIỂN GIAO THÔNG';
 
     const examErrorButtons = document.querySelectorAll('.exam-error-btn');
     if (examErrorButtons.length >= 3) {
@@ -2165,19 +2177,15 @@ function setupNextQuestion13Button() {
     const nextQuestion13Btn = document.getElementById('nextQuestion13Btn');
     if (nextQuestion13Btn) {
         nextQuestion13Btn.addEventListener('click', () => {
-            // Disabled as per user request
-            console.log('Nút Kết thúc đã bị vô hiệu hóa.');
+            handleFourteenthQuestion();
         });
     }
 }
 
 function handleFourteenthQuestion() {
-    console.log('âž¡ï¸ Chuyá»ƒn sang bÃ i 14: Káº¾T THÃšC');
+    console.log('➡️ Chuyển sang bài 14: KẾT THÚC');
 
     hideAllNextButtons();
-
-    // Stop timers
-    stopTimers();
 
     if (currentAudio) {
         currentAudio.pause();
@@ -2185,44 +2193,57 @@ function handleFourteenthQuestion() {
         currentAudio = null;
     }
 
-    // Determine pass/fail
-    const passed = score >= 80;
-    const finalAudio = passed ? 'CHUC MUNG BAN DA DAT.mp3' : 'BAN DA TRUOT SAT HACH.mp3';
-
-    currentAudio = new Audio(finalAudio);
+    currentAudio = new Audio('KET THUC.mp3');
     currentAudio.play().catch(error => console.log('Error playing audio:', error));
 
+    resetCurrentTime();
+
     const examNameTitle = document.querySelector('.exam-name-title');
-    if (examNameTitle) examNameTitle.textContent = 'Káº¾T THÃšC BÃ€I THI';
+    if (examNameTitle) examNameTitle.textContent = 'KẾT THÚC';
 
-    // Hide error buttons as exam is over
-    const commonErrors = document.querySelector('.common-errors-section');
-    if (commonErrors) commonErrors.style.display = 'none';
+    const examErrorButtons = document.querySelectorAll('.exam-error-btn');
+    if (examErrorButtons.length >= 1) {
+        const btn1Name = examErrorButtons[0].querySelector('.error-name');
+        const btn1Penalty = examErrorButtons[0].querySelector('.error-penalty');
+        if (btn1Name) btn1Name.textContent = 'Không bật xi nhan phải';
+        if (btn1Penalty) btn1Penalty.textContent = '(-5đ)';
+        examErrorButtons[0].dataset.penalty = '-5';
+        examErrorButtons[0].style.display = 'flex';
 
-    const examErrors = document.querySelector('.exam-errors-section');
-    if (examErrors) examErrors.style.display = 'none';
-
-    // Show result
-    const contentArea = document.querySelector('.content-area');
-    if (contentArea) {
-        contentArea.innerHTML = `
-            <div class="result-card ${passed ? 'pass' : 'fail'}" style="text-align: center; padding: 2rem; border-radius: 1rem; background: ${passed ? 'rgba(34, 197, 94, 0.1)' : 'rgba(239, 68, 68, 0.1)'}; border: 2px solid ${passed ? '#22c55e' : '#ef4444'};">
-                <h2 style="font-size: 2rem; font-weight: 800; color: ${passed ? '#22c55e' : '#ef4444'}; margin-bottom: 1rem;">${passed ? 'CHÃšC Má»ªNG Báº N ÄÃƒ Äáº T!' : 'Báº N ÄÃƒ KHÃ”NG Äáº T'}</h2>
-                <div style="font-size: 4rem; font-weight: 900; margin-bottom: 1rem; color: var(--text-primary);">${score}</div>
-                <p style="font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem;">Tá»•ng thá»i gian: ${formatTime(totalSeconds)}</p>
-                <button onclick="location.reload()" style="padding: 1rem 2rem; font-size: 1.125rem; font-weight: 600; color: white; background: var(--primary); border: none; border-radius: 0.5rem; cursor: pointer; transition: all 0.2s;">Thi láº¡i</button>
-            </div>
-        `;
+        if (examErrorButtons.length >= 2) examErrorButtons[1].style.display = 'none';
+        if (examErrorButtons.length >= 3) examErrorButtons[2].style.display = 'none';
+        if (examErrorButtons.length >= 4) examErrorButtons[3].style.display = 'none';
     }
 
     const prevBtn = document.getElementById('prevQuestionBtn');
-    if (prevBtn) prevBtn.style.display = 'none';
+    if (prevBtn) {
+        prevBtn.style.display = 'flex';
+        const prevBtnText = prevBtn.querySelector('.prev-btn-text');
+        if (prevBtnText) prevBtnText.textContent = 'Quay lại bài NGÃ TƯ 4';
+    }
 
     const tuneBtn = document.getElementById('tuneBtn');
-    if (tuneBtn) tuneBtn.style.display = 'none';
+    if (tuneBtn) {
+        const name = tuneBtn.querySelector('.audio-name');
+        if (name) name.textContent = 'Thi đạt';
+        tuneBtn.dataset.audio = 'THI DAT SA HINH.mp3';
+        tuneBtn.style.display = 'flex';
+    }
 
-    console.log('âœ… ÄÃ£ hoÃ n thÃ nh bÃ i thi');
-    console.log('ðŸ“Š Äiá»ƒm tá»•ng káº¿t:', score);
+    const emergencyBtn = document.getElementById('emergencyBtn');
+    if (emergencyBtn) {
+        const name = emergencyBtn.querySelector('.audio-name');
+        if (name) name.textContent = 'Thi trượt';
+        emergencyBtn.dataset.audio = 'THI ROT SA HINH.mp3';
+        emergencyBtn.style.display = 'flex';
+    }
+
+    const nextQuestion13Btn = document.getElementById('nextQuestion13Btn');
+    if (nextQuestion13Btn) nextQuestion13Btn.style.display = 'none';
+
+    currentQuestion = 14;
+
+    console.log('✅ Đã chuyển sang bài 14: KẾT THÚC');
 }
 
 // Initialize new buttons if DOM is already loaded or add listener
